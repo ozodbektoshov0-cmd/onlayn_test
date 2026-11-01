@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Informatika, I chorak 1-ChSB: onlayn test</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#EEF3FA; --surface:#FFFFFF; --surface2:#F5F8FD; --ink:#13203B; --muted:#5A6A87;
+  --line:#DBE3F0; --line2:#BCC8DD; --accent:#0B7FB0; --accent-ink:#FFFFFF; --accent-soft:#E0F1FA;
+  --good:#12845C; --good-ink:#FFFFFF; --good-soft:#DBF4E9; --bad:#CC3A3A; --bad-soft:#FDE5E5;
+  --warn:#A96F00; --warn-soft:#FFF1D2; --amber:#F2A900; --viol:#6B4FD8; --viol-soft:#ECE8FB;
+  --shadow:0 8px 28px rgba(19,32,59,.09); color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1329; --surface:#14214A; --surface2:#1A2B5C; --ink:#EDF2FC; --muted:#9DABCB;
+    --line:#26386A; --line2:#3A4F86; --accent:#4CC9F0; --accent-ink:#06223A; --accent-soft:rgba(76,201,240,.14);
+    --good:#2ECC8F; --good-ink:#05271B; --good-soft:rgba(46,204,143,.16); --bad:#FF6B6B; --bad-soft:rgba(255,107,107,.15);
+    --warn:#F6B93B; --warn-soft:rgba(246,185,59,.15); --amber:#F6B93B; --viol:#AA8EFF; --viol-soft:rgba(170,142,255,.16);
+    --shadow:0 8px 28px rgba(0,0,0,.35); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1329; --surface:#14214A; --surface2:#1A2B5C; --ink:#EDF2FC; --muted:#9DABCB;
+  --line:#26386A; --line2:#3A4F86; --accent:#4CC9F0; --accent-ink:#06223A; --accent-soft:rgba(76,201,240,.14);
+  --good:#2ECC8F; --good-ink:#05271B; --good-soft:rgba(46,204,143,.16); --bad:#FF6B6B; --bad-soft:rgba(255,107,107,.15);
+  --warn:#F6B93B; --warn-soft:rgba(246,185,59,.15); --amber:#F6B93B; --viol:#AA8EFF; --viol-soft:rgba(170,142,255,.16);
+  --shadow:0 8px 28px rgba(0,0,0,.35); color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;min-height:100vh}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--topbg,var(--bg));z-index:30}
+body[data-screen="test"]{--topbg:var(--surface)}
+button{font:inherit;color:inherit}
+h1,h2,h3,p{margin:0}
+.wrap{max-width:780px;margin:0 auto;padding:22px 16px 48px}
+.muted{color:var(--muted)} .s{font-size:14px}
+.btn{border:0;border-radius:14px;padding:13px 20px;min-height:50px;font-weight:600;font-size:16px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .08s,background .15s,opacity .15s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.good{background:var(--good);color:var(--good-ink)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line2);color:var(--ink)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.link{background:none;border:0;color:var(--accent);font-weight:600;font-size:14px;padding:8px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+
+/* ism sahifasi */
+.hero{min-height:calc(100vh - 90px);display:flex;flex-direction:column;justify-content:center;gap:22px;max-width:460px;margin:0 auto}
+.mark{width:68px;height:68px;border-radius:22px;background:linear-gradient(135deg,var(--accent),var(--viol));display:grid;place-items:center;color:#fff;font-weight:700;font-size:26px;box-shadow:var(--shadow)}
+.hero h1{font-size:30px}
+.field label{display:block;font-weight:600;font-size:14px;margin-bottom:8px}
+.input{width:100%;font:inherit;font-size:17px;padding:15px 16px;border-radius:14px;border:2px solid var(--line2);background:var(--surface);color:var(--ink)}
+.input:focus{border-color:var(--accent);outline:none}
+.hint{font-size:13px;color:var(--muted);margin-top:8px}
+
+/* bosh sahifa */
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:22px}
+.top h1{font-size:26px}
+.sec{font-size:15px;color:var(--muted);font-weight:600;margin:6px 0 12px;text-transform:uppercase;letter-spacing:.06em}
+.tcard{background:var(--surface);border:2px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;transition:border-color .15s}
+.tcard.open{border-color:var(--accent)}
+.tcard-h{display:flex;gap:14px;align-items:center;width:100%;padding:18px;background:none;border:0;text-align:left;cursor:pointer}
+.tic{flex:0 0 52px;height:52px;border-radius:16px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:700;font-size:13px}
+.tinfo{flex:1;display:flex;flex-direction:column;min-width:0}
+.tinfo b{font-size:16px;line-height:1.3}.tinfo small{color:var(--muted);font-size:13px}
+.chev{color:var(--muted);font-size:12px}
+.tbody{display:none;padding:0 18px 20px}
+.tcard.open .tbody{display:block}
+.facts{list-style:none;padding:0;margin:0 0 14px;display:flex;gap:8px;flex-wrap:wrap}
+.facts li{background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px}
+.rules{margin:0 0 18px;padding-left:20px;color:var(--muted);font-size:14px}
+.rules li{margin-bottom:4px}
+.resume{background:var(--warn-soft);border-radius:14px;padding:12px 14px;margin-bottom:12px;font-size:14px}
+.hist{margin-top:26px}
+.att{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:8px}
+.att b{font-size:17px}.att small{display:block;color:var(--muted);font-size:12.5px}
+
+/* test */
+.tbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.tbar-in{max-width:780px;margin:0 auto;padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tcount{font-size:15px;color:var(--muted);min-width:76px}.tcount b{color:var(--ink);font-size:20px}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:28px;letter-spacing:.5px;line-height:1}
+.timer.warn{color:var(--warn)}.timer.danger{color:var(--bad)}
+.timer.pulse{animation:pl 1s ease-in-out infinite}
+@keyframes pl{50%{opacity:.45}}
+.tans{font-size:15px;color:var(--muted);min-width:76px;text-align:right}.tans small{display:block;font-size:11px;line-height:1}
+.prog{height:4px;background:var(--line)}.prog i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.chips{position:relative;display:flex;gap:6px;overflow-x:auto;padding:8px 16px 10px;max-width:780px;margin:0 auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.cn{flex:0 0 auto;min-width:36px;height:36px;border-radius:10px;border:1.5px solid var(--line2);background:var(--surface2);font-size:13px;font-weight:600;cursor:pointer}
+.cn.ans{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.cn.cur{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.qwrap{padding-bottom:130px}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px 18px;box-shadow:var(--shadow)}
+.qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.qn{font-weight:700;color:var(--muted);font-size:14px}
+.lvl{font-size:13px;font-weight:600;padding:4px 12px;border-radius:999px}
+.lv-b{background:var(--accent-soft);color:var(--accent)} .lv-q{background:var(--warn-soft);color:var(--warn)} .lv-m{background:var(--viol-soft);color:var(--viol)}
+.qtext{font-size:17px;font-weight:500;margin-bottom:12px;overflow-wrap:anywhere}
+.qafter{font-size:17px;font-weight:500;margin:12px 0}
+.stmts{list-style:none;padding:0;margin:0 0 12px;display:flex;flex-direction:column;gap:8px}
+.stmts li{display:flex;gap:10px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:15px}
+.stmts b{flex:0 0 22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12px;display:grid;place-items:center;margin-top:2px}
+.stmts span{overflow-wrap:anywhere}
+.opts{margin-top:16px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:13px 14px;cursor:pointer;margin-bottom:10px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.ol{flex:0 0 34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:var(--surface2);border:1.5px solid var(--line2)}
+.opt.sel .ol{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.ot{padding-top:3px;overflow-wrap:anywhere;font-size:16px}
+.mono .ot{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;word-break:break-all}
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.bnav-in{max-width:780px;margin:0 auto;display:flex;gap:12px}
+.bnav .btn{flex:1}
+
+/* sxema va jadvallar */
+.figwrap{overflow-x:auto;margin:6px 0 12px;border:1px solid var(--line);border-radius:14px;background:var(--surface2)}
+.net{display:block;width:100%;min-width:560px;height:auto}
+.e{stroke:var(--muted);stroke-width:2;fill:none}.e.hi{stroke:var(--amber);stroke-width:4.5}
+.f{stroke:var(--line2);stroke-width:1.5;stroke-dasharray:4 4}
+.mkn{fill:var(--muted)}.mkh{fill:var(--amber)}
+.rn circle{fill:var(--surface);stroke:var(--line2);stroke-width:2}
+.rn text{fill:var(--ink);font:600 15px Poppins,system-ui,sans-serif;text-anchor:middle}
+.rn.on circle{fill:var(--amber);stroke:var(--amber)}.rn.on text{fill:#1b1400}
+.ico{fill:var(--accent);fill-opacity:.25;stroke:var(--accent);stroke-width:2}
+.cap{fill:var(--muted);font:500 12px Poppins,system-ui,sans-serif;text-anchor:middle}
+.swipe{display:none;font-size:12px;color:var(--muted);margin:-6px 0 10px}
+@media (max-width:620px){.swipe{display:block}}
+.tbls{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:12px}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--surface2);border-radius:12px;overflow:hidden}
+table.t caption{text-align:left;font-weight:600;font-size:13px;color:var(--muted);padding:0 0 6px}
+table.t th,table.t td{border:1px solid var(--line);padding:5px 8px;text-align:left}
+table.t th{background:var(--surface);font-weight:600}
+table.t tr.hit td{background:var(--warn-soft);font-weight:600}
+.dev{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 12px;font-size:15px}
+.dev div{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.dev b{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+
+/* natija */
+.rcard{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:24px 18px;box-shadow:var(--shadow);text-align:center}
+.ring{position:relative;width:176px;height:176px;margin:0 auto 12px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .bgc{fill:none;stroke:var(--line);stroke-width:12}.ring .fg{fill:none;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .8s}
+.ring .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .mid b{font-size:40px;line-height:1}.ring .mid small{color:var(--muted);font-size:13px}
+.rcard h2{font-size:22px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}
+.stat{background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:12px}
+.stat b{display:block;font-size:22px;line-height:1.2}.stat small{color:var(--muted);font-size:12.5px}
+.stat.g b{color:var(--good)}.stat.r b{color:var(--bad)}.stat.w b{color:var(--warn)}
+.lvrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.acts{display:flex;gap:10px;flex-wrap:wrap}.acts .btn{flex:1;min-width:150px}
+.note{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:500;margin-bottom:14px}
+.rev-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:28px 0 12px;flex-wrap:wrap}
+.rev-h h2{font-size:20px}
+.tabs{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px}
+.tab{border:0;background:none;padding:8px 14px;border-radius:9px;font-weight:600;font-size:14px;cursor:pointer;color:var(--muted)}
+.tab.on{background:var(--accent);color:var(--accent-ink)}
+.rv{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}
+.rv-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
+.badge{font-size:12.5px;font-weight:700;padding:4px 12px;border-radius:999px}
+.badge.ok{background:var(--good-soft);color:var(--good)}.badge.no{background:var(--bad-soft);color:var(--bad)}.badge.bl{background:var(--warn-soft);color:var(--warn)}
+.opt.static{cursor:default;margin-bottom:8px;flex-wrap:wrap}
+.opt.static:hover{border-color:var(--line)}
+.opt.ok{border-color:var(--good);background:var(--good-soft)}.opt.ok:hover{border-color:var(--good)}
+.opt.no{border-color:var(--bad);background:var(--bad-soft)}.opt.no:hover{border-color:var(--bad)}
+.opt.ok .ol{background:var(--good);color:var(--good-ink);border-color:var(--good)}
+.opt.no .ol{background:var(--bad);color:#fff;border-color:var(--bad)}
+.tagm{margin-left:auto;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;white-space:nowrap;align-self:center}
+.opt.ok .tagm{background:var(--good);color:var(--good-ink)}.opt.no .tagm{background:var(--bad);color:#fff}
+.onote{flex-basis:100%;margin:0 0 0 46px;font-size:13px;color:var(--muted)}
+.expl{background:var(--accent-soft);border-radius:14px;padding:12px 14px;margin-top:6px}
+.expl b{display:block;font-size:13px;color:var(--accent);margin-bottom:4px}
+.expl ul{margin:0;padding-left:18px;font-size:14px}
+.fnote{font-size:13px;color:var(--warn);margin-top:8px}
+.empty{text-align:center;padding:30px 10px;color:var(--muted)}
+
+/* modal */
+.mbg{position:fixed;inset:0;z-index:50;background:rgba(5,10,25,.55);display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--surface);border-radius:22px;max-width:420px;width:100%;padding:24px 20px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.modal h2{font-size:21px;margin-bottom:8px}
+.modal p{color:var(--muted);font-size:15px;margin-bottom:6px}
+.modal .warnl{color:var(--warn);font-weight:600}
+.modal .macts{display:flex;gap:10px;margin-top:18px}.modal .macts .btn{flex:1}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:420px){.timer{font-size:25px}.qtext,.qafter{font-size:16px}}
+</style>
+</head>
+<body data-screen="name">
+<div id="app"></div>
+<div id="modal-root"></div>
+<script>
+"use strict";
+const Q = [{"n": 1, "lv": "B", "t": "Dasturlash tilida yozilgan kodni kompyuter tushunadigan tilga o‘giradigan dastur qanday ataladi?", "o": ["Utilit", "Linker-dastur", "Kompilyator", "Drayver"], "c": 2, "e": ["Dasturlash tilidagi kodni protsessor to‘g‘ridan-to‘g‘ri tushunmaydi — uni mashina kodiga o‘girish kerak.", "Kompilyator dastur kodini mashina kodiga o‘giradi. Javob: Kompilyator."], "on": ["Xizmat dastur: kompyuter ishini yaxshilaydi", "Alohida kod bo‘laklarini bog‘laydi", "Dastur kodini mashina kodiga o‘giradi", "Qurilmani tizim bilan bog‘laydi"]}, {"n": 2, "lv": "Q", "t": "O‘quvchi kompyuterdan foydalanish jarayonida quyidagi holatlar kuzatildi. Har bir holatni qaysi xotira turi – ROM(1) yoki RAM(2) bilan bog‘liqligini aniqlang.", "o": ["1 – a;  2 – b, c, d;", "1 – b;  2 – a, c, d", "1 – c;  2 – a, b, d;", "1 – d;  2 – a, b, c"], "c": 0, "e": ["ROM — doimiy xotira: kompyuter yoqilganda ishga tushiruvchi dastur (BIOS) shu yerda saqlanadi.", "Ochiq dasturlar RAMda turadi; RAM to‘lib qolsa, kompyuter sekinlashadi.", "RAM energiyaga bog‘liq: tok o‘chsa, undagi saqlanmagan ma’lumot yo‘qoladi.", "Dasturlar yopilsa, RAM bo‘shaydi. Javob: 1 – a;  2 – b, c, d."], "s": [["a", "Kompyuter yoqilganda, foydalanuvchi ishtirokisiz tizim mustaqil ravishda ishga tushdi;"], ["b", "Qurilma bir vaqtda brauzer, Office va grafik muharrir ishga tushgach, ish jarayoni sekinlashdi;"], ["c", "Elektr toki kutilmaganda o‘chib qoldi va foydalanuvchi saqlamagan joriy ishlar yo‘qoldi;"], ["d", "Foydalanuvchi bir nechta faol dasturlarni to‘xtatib qo‘ygach, qurilmaning ishlashi tezlashdi;"]]}, {"n": 3, "lv": "Q", "t": "Quyidagi jadvalda berilgan ma’lumotlarning to‘g‘ri yoki noto‘g‘ri ekanligini aniqlang.", "o": ["1–T, 2–T, 3–N, 4–N", "1–T, 2–N, 3–T, 4–N", "1–N, 2–T, 3–N, 4–T", "1–N, 2–N, 3–T, 4–T"], "c": 3, "e": ["Operatsion tizimni ishga tushiruvchi kichik dastur — bootloader. Gipervizor virtual mashinalarni boshqaradi. Demak: N.", "Ta’riflar o‘rin almashgan: tezkor xotirani virtual mashinalarga bo‘lish — gipervizor vazifasi. Demak: N.", "Utilit — xizmat dastur (antivirus, arxivator, disk tozalash). Demak: T.", "Ofis dasturlari (matn, jadval, taqdimot) — umumiy maqsadli dasturlar. Javob: 1–N, 2–N, 3–T, 4–T."], "s": [["1", "Gipervizor – kichik hajmli, dastlabki ishga tushuvchi, operatsion tizimni faollashtiradigan kodli dasturiy ta’minot."], ["2", "Bootloader – tezkor xotirani bir nechta virtual mashinalarga ajratuvchi dasturiy ta’minot."], ["3", "Utilit dastur – kompyuterning samaraliroq ishlashiga yordam beradigan yoki unga yangi funksiya qo‘shadigan dasturiy ta’minot."], ["4", "Ofis dasturlari – umumiy maqsadli bir nechta dasturlar paketidir."]], "fn": "Eslatma: varaqda bu variant ikkinchi marta «B» deb bosilgan, aslida u D variant."}, {"n": 4, "lv": "B", "t": "Kir yuvish mashinasining suv harorati meyordan ortganini aniqlab, protsessorga ma’lumot yetkazuvchi qurilma qanday nomlanadi?", "o": ["Yorug‘lik sensori", "Mexanik sensor", "Harorat sensori", "Bosim sensori"], "c": 2, "e": ["O‘lchanayotgan kattalik — suv harorati. Uni o‘lchaydigan sensor kerak.", "Harorat sensori suv haroratini o‘lchab, signalni protsessorga uzatadi."], "on": ["Yorug‘lik darajasini o‘lchaydi", "Harakat yoki mexanik ta’sirni sezadi", "Haroratni o‘lchab, signalni protsessorga uzatadi", "Bosim kuchini o‘lchaydi"]}, {"n": 5, "lv": "Q", "t": "“O‘quv qurollari” do‘konidagi bir qancha tovarlarning narxi qimmatligi bo‘yicha e’tirozlar bildirildi. Sotuvchi ushbu tovarlarning narxlarini pasaytirdi. Endi har bir mahsulot narxini alohida kiritmasdan, kassada mahsulotni tez aniqlash va yangilangan narx bo‘yicha hisob-kitob qilish talab etiladi. Bunday vaziyatda qaysi texnologiyadan foydalanish samaradorlikni oshiradi?", "o": ["OMR/OCR", "MICR", "Shtrix-kod Rider", "Chip-Pin rider"], "c": 2, "e": ["Kerak: mahsulotni tez aniqlash va yangilangan narx bo‘yicha avtomatik hisob-kitob.", "Shtrix-kod rider kodni o‘qiydi, narx bazadan olinadi — narx yangilansa, kassada qayta kiritish shart emas."], "on": ["Javob varaqlari va matnni o‘qiydi", "Bank cheklaridagi raqamlarni o‘qiydi", "Kodni o‘qiydi, narx bazadan olinadi", "Bank kartasi orqali to‘lovni qabul qiladi"]}, {"n": 6, "lv": "Q", "t": "Issiqxonada harorat avtomatik boshqariladi. Tizimda quyidagi hodisalar kuzatildi:", "o": ["1 – a;  2 – d", "1 – b;  2 – c", "1 – c;  2 – a", "1 – d;  2 – b"], "c": 0, "e": ["Sensor kattalikni o‘lchaydi: harorat pasayganini aniqladi (a).", "Solishtirish va signal yuborish — boshqaruv qismi (protsessor) vazifasi (b, c).", "Aktuator buyruqni bajaradi: isitgich ishga tushdi (d). Javob: 1 – a;  2 – d."], "af": "Ushbu jarayonda harorat sensori (1) va aktuator (2) bajaradigan vazifalarni aniqlang.", "s": [["a", "Xona harorati belgilangan qiymatdan pasaygani aniqlandi;"], ["b", "Aniqlangan qiymat tizim tomonidan belgilangan harorat bilan solishtirildi;"], ["c", "Isitish qurilmasiga ishga tushish signali yuborildi;"], ["d", "Isitish qurilmasi ishga tushib, xona harorati ko‘tarila boshladi;"]]}, {"n": 7, "lv": "B", "t": "Ma’lumotlarni saqlash, yozish va o‘qishda lazer nuridan foydalanadigan xotira vositasini aniqlang.", "o": ["Magnit tasma", "SSD", "DVD", "USB flesh-xotira"], "c": 2, "e": ["Lazer nuri bilan ishlaydigan xotira vositalari — optik disklar (CD, DVD, Blu-ray).", "Magnit tasma — magnit maydon; SSD va USB — flash mikrosxema; DVD — lazer nuri."], "on": ["Magnit maydon yordamida yozadi", "Flash mikrosxemalar asosida ishlaydi", "Lazer nuri bilan yozadi va o‘qiydi", "Flash mikrosxemalar, lazer yo‘q"]}, {"n": 8, "lv": "Q", "t": "Bir xil o‘lchamdagi ikkita optik diskka ma’lumot yozishda A diskda kengroq, B diskda esa ingichkaroq lazer nuri ishlatiladi. B diskda ma’lumot yoziladigan belgilar kichikroq va bir-biriga yaqinroq joylashtirilishi mumkin. Bu holat B disk uchun qanday natija beradi?", "o": ["Diskdagi fayllarning hajmi avtomatik kamayadi", "Ma’lumotlarni o‘qish tezligi albatta ikki baravar oshadi", "Saqlanayotgan ma’lumotlarning sifati avtomatik oshadi", "Bir xil yuzaga ko‘proq ma’lumot yozish imkoniyati paydo bo‘ladi"], "c": 3, "e": ["A disk: keng nur, katta belgilar, ular orasidagi masofa katta.", "B disk: ingichka nur, kichik va zich belgilar.", "Bir xil yuzaga ko‘proq ma’lumot yozish imkoniyati paydo bo‘ladi: B diskning sig‘imi ortadi."], "on": ["Fayl hajmi o‘zgarmaydi, diskning sig‘imi o‘zgaradi", "Tezlik haqida bunday kafolat yo‘q", "Sifat belgilar zichligiga bog‘liq emas", "Belgilar zichroq — sig‘im ortadi"]}, {"n": 9, "lv": "Q", "t": "Quyidagi xotira qurilmalarini berilgan kriteriyalar bo‘yicha past ko‘rsatkichdan yuqori ko‘rsatkichga qarab tartiblang.", "o": ["1 – (I → III → II);  2 – (I = III → II);  3 – (III → II → I).", "1 – (II → III → I);  2 – (I → II → III);  3 – (III → II → I).", "1 – (III = I → II);  2 – (II → III = I);  3 – (I → III = II).", "1 – (I → II → III);  2 – (III → I → II);  3 – (II → III = I)."], "c": 0, "e": ["Tezlik: magnit tasma (I) < DVD (III) < USB-fleshka (II).", "Mustahkamlik: magnit tasma (I) = DVD (III) < USB-fleshka (II).", "Sig‘im: DVD (III) < USB-fleshka (II) < magnit tasma (I). Uchala mezon A variantga mos."], "fig": "dev"}, {"n": 10, "lv": "Q", "t": "A kompyuterdan tashqi serverga yuborilgan paket dastlab R1 routeriga kelib tushdi (rasmga qarang). Paket tarkibidagi ma’lumotlar va routerlarning yo‘nalish jadvaliga asoslanib, paket Internetga chiqishigacha qaysi yo‘nalish bo‘ylab harakatlanishini aniqlang.", "o": ["R1 → R2 → R5 → R8 → Internet", "R1 → R3 → R6 → R8 → Internet", "R1 → R4 → R7 → R8 → Internet", "R1 → R3 → R5 → R8 → Internet"], "c": 1, "e": ["R1 → R3: jadvalga ko‘ra R1 ning keyingi yo‘nalishi — R3.", "R3 → R6: R3 ning keyingi yo‘nalishi — R6.", "R6 → R8 → Internet. Yo‘nalish: R1 → R3 → R6 → R8 → Internet."], "fig": "net", "net": {"table": [["R1", "R3"], ["R2", "R5"], ["R3", "R6"], ["R4", "R7"], ["R5", "R8"], ["R6", "R8"], ["R7", "R8"], ["R8", "Internet"]], "faint": [["R1", "R2"], ["R1", "R4"]], "path": ["R1", "R3", "R6", "R8", "Internet"], "ips": "203.0.113.5"}, "pk": 1}, {"n": 11, "lv": "Q", "t": "Bir tashkilotda quyidagi axborot xizmatlari mavjud:", "o": ["1 – a, c;  2 – b, d", "1 – b, d;  2 – a, c", "1 – a, d;  2 – b, c", "1 – c, d;  2 – a, b"], "c": 1, "e": ["Faqat tashkilot ichidan ishlaydigan xizmat — Intranet (a).", "Istalgan tashqi foydalanuvchiga ochiq ma’lumot — Internet (b).", "Ruxsat berilgan xodimlar uchun yopiq hujjatlar — Intranet (c).", "Boshqa davlatdagi foydalanuvchilar ham foydalanadi — Internet (d). Javob: 1 – b, d;  2 – a, c."], "af": "Holatlarni Internet (1) va Intranet (2) bilan to‘g‘ri bog‘lang.", "s": [["a", "Xodimlar ish jadvali va ichki hujjatlarni faqat tashkilot binosidagi hisob orqali ko‘ra oladi;"], ["b", "Tashkilot mahsulotlari haqidagi ma’lumotni istalgan foydalanuvchi tashqaridan ko‘ra oladi;"], ["c", "Rahbariyatning xizmat hujjatlariga faqat ruxsat berilgan xodimlar kiradi;"], ["d", "Tashkilotning rasmiy sahifasidan boshqa davlatdagi foydalanuvchilar ham foydalanadi;"]]}, {"n": 12, "lv": "Q", "t": "Dastlab media-kompetensiya resursining URL manzili quyidagicha edi: http://www.rtmuz.uz/e-resurs/e-lib/media. Sayt tuzilishida quyidagi o‘zgarishlar amalga oshirildi: e-resurs papkasi digital-resurs deb qayta nomlandi, e-lib papkasi new-lib deb qayta nomlandi, new-lib ichida yangi class papkasi yaratildi, media resursi yangi yaratilgan class papkasi ichiga ko‘chirildi va aloqa protokoli o‘zgarmadi. O‘zgarishlardan keyin resursning to‘g‘ri URL manzilini aniqlang.", "o": ["http://www.rtmuz.uz-en/digital-resurs/class/new-lib/media", "http://www.rtmuz.uz-en/digital-resurs/new-lib/media/class", "http://www.rtmuz.uz/e-resurs/new-lib/class/media", "http://www.rtmuz.uz/digital-resurs/new-lib/class/media"], "c": 3, "e": ["Papka nomi o‘zgardi: e-resurs → digital-resurs.", "Papka nomi o‘zgardi: e-lib → new-lib.", "Yangi manzil: http://www.rtmuz.uz/digital-resurs/new-lib/class/media"], "mono": 1}, {"n": 13, "lv": "M", "t": "A kompyuter (chiqish manzili) Internetdagi serverga (borish manzili) so‘rov paketi yubordi. Paket dastlab R1 ga kelib tushdi. Rasmda tarmoq arxitekturasi va paket borish manzili uchun routerlar yo‘nalishi (jadval) ko‘rsatilgan: 1) Paket marshrutini aniqlang va har bir routerga paket qayerdan kelib, qayerga uzatilishini ko‘rsating; 2) Paket jami nechta routerdan o‘tishini aniqlang; 3) Paket Internetga chiqishidan oldin qaysi routerdan oxirgi bo‘lib o‘tishini aniqlang.", "o": ["Marshrut: R1 → R3 → R6 → R8; paket 4 ta routerdan o‘tadi; Internetga chiqishdan oldingi oxirgi router — R8.", "Marshrut: R1 → R2 → R5 → R8; paket 4 ta routerdan o‘tadi; Internetga chiqishdan oldingi oxirgi router — R8.", "Marshrut: R1 → R2 → R6 → R3 → R7 → R8; paket 6 ta routerdan o‘tadi; Internetga chiqishdan oldingi oxirgi router — R8.", "Marshrut: R1 → R4 → R7 → R8; paket 4 ta routerdan o‘tadi; Internetga chiqishdan oldingi oxirgi router — R8."], "c": 2, "e": ["R1 → R2 → R6 (jadval: R1 → R2, R2 → R6).", "R6 → R3: jadvalga ko‘ra R6 ning keyingi yo‘nalishi — R3.", "R3 → R7 → R8.", "R8 → Internet. Marshrut: R1, R2, R6, R3, R7, R8 — jami 6 ta router, oxirgisi — R8."], "fig": "net", "net": {"table": [["R1", "R2"], ["R2", "R6"], ["R3", "R7"], ["R4", "R7"], ["R5", "R8"], ["R6", "R3"], ["R7", "R8"], ["R8", "Internet"]], "faint": [], "path": ["R1", "R2", "R6", "R3", "R7", "R8", "Internet"], "ips": "203.0.113.5", "ipa": "192.168.1.12"}}, {"n": 14, "lv": "Q", "t": "Tashkilotda xodimlariga AT yordamida turli ish tartiblaridan foydalanish uchun 1. Qisqartirilgan ish kuni, 2. Erkin ish grafigi, 3. Ishni bo‘lishish, 4. Tig‘izlashgan ish soatlari kabi ishlash usullari taklif etildi. Quyida 4 nafar xodimning ishlash sharoiti ko‘rsatilgan:", "o": ["1–c; 2–d; 3–b; 4–a", "1–c; 2–b; 3–a; 4–d", "1–a; 2–c; 3–d; 4–b", "1–d; 2–a; 3–b; 4–c"], "c": 0, "e": ["Soatlar kamaymaydi, ish kunlari soni kamayadi, kunlik soat ko‘payadi → 4 (a).", "Bitta ish o‘rnini ikki xodim bo‘lishadi → 3 (b).", "Umumiy ish soati odatdagidan kam → 1 (c).", "Ish vaqtini o‘zi tanlaydi → 2 (d). Javob: 1–c; 2–d; 3–b; 4–a."], "af": "Har bir xodimning ish sharoitini usullar bilan moslashtiring.", "s": [["a", "Dilshod haftalik belgilangan ish soatini to‘liq bajaradi, ammo ish kunlari sonini kamaytirish uchun ayrim kunlari ko‘proq soat ishlaydi."], ["b", "Mohira bir lavozim vazifalarini boshqa xodim bilan bo‘lib bajaradi; ikkalasi birgalikda bitta ish o‘rnining vazifalarini bajaradi."], ["c", "Akmal odatdagidan kamroq umumiy ish soatida ishlaydi."], ["d", "Nilufar ishni boshlash va tugatish vaqtini o‘z ehtiyojiga mos ravishda tanlaydi."]]}, {"n": 15, "lv": "M", "t": "Korxonada yangi AT tizimlari joriy etilgach, ayrim takroriy ishlar avtomatlashtirildi. Shu bilan birga, tizimlarni boshqarish va texnik xizmat ko‘rsatish uchun yangi mutaxassislar ishga olindi. Onlayn xizmatlar kengaygani sabab yetkazib berish bilan bog‘liq ishlar ham ko‘paydi, ayrim xodimlarga esa masofadan ishlash imkoniyati yaratildi. Ushbu vaziyatdan ATning bandlik va ish uslubiga ta’siri haqida eng to‘liq xulosani aniqlang.", "o": ["AT ayrim ish o‘rinlarini kamaytiradi lekin tashkilot ish uslubiga ta’sir qilmaydi", "AT yangi ish o‘rinlarini yaratadi, ammo mavjud kasblarga bo‘lgan talab o‘zgarmaydi", "AT ayrim ishlarga ehtiyojni kamaytirib, yangi kasblarga talab yaratib, ish uslubini o‘zgartiradi", "AT ish uslubini o‘zgartiradi, ammo bandlik tarkibiga ta’sir ko‘rsatmaydi"], "c": 2, "e": ["Avtomatlashtirish → ayrim ishlarga ehtiyoj kamaydi.", "Yangi mutaxassislar va yangi ishlar → yangi kasblarga talab oshdi.", "Masofadan ishlash → ish uslubi o‘zgardi. Eng to‘liq xulosa — uchala jihatni qamrab olgan C."], "on": ["Masofadan ishlash bor — uslub o‘zgargan", "Avtomatlashtirilgan ishlarga talab kamaydi", "Uchala o‘zgarishni qamrab oladi", "Bandlik tarkibi ham o‘zgargan"]}];
+const TOTAL = Q.length, DURATION = 60 * 60 * 1000;
+const PTS = {B: 20, Q: 24, M: 50};                 // ball o‘ndan bir ulushlarda (2; 2,4; 5)
+const LV = {B: ["Bilish", "lv-b"], Q: ["Qo‘llash", "lv-q"], M: ["Mulohaza", "lv-m"]};
+const LET = ["A", "B", "C", "D"];
+const K_NAME = "chsb1:name", K_SESS = "chsb1:session", K_HIST = "chsb1:history";
+const MAXPTS = Q.reduce((s, q) => s + PTS[q.lv], 0);
+
+function store(op, key, val) {
+  try {
+    if (op === "get") { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; }
+    if (op === "set") localStorage.setItem(key, JSON.stringify(val));
+    if (op === "del") localStorage.removeItem(key);
+  } catch (e) { return null; }
+  return null;
+}
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+const fmtPts = t => (t % 10 === 0) ? String(t / 10) : (t / 10).toFixed(1).replace(".", ",");
+const pad2 = n => String(n).padStart(2, "0");
+const mmss = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return pad2(Math.floor(s / 60)) + ":" + pad2(s % 60); };
+const spentTxt = ms => { const s = Math.round(ms / 1000); const m = Math.floor(s / 60); return (m ? m + " daqiqa " : "") + (s % 60) + " soniya"; };
+const dateTxt = ts => { const d = new Date(ts); return pad2(d.getDate()) + "." + pad2(d.getMonth() + 1) + "." + d.getFullYear() + " " + pad2(d.getHours()) + ":" + pad2(d.getMinutes()); };
+
+let S = {screen: "name", name: "", open: false, t: null, res: null, filter: "wrong"};
+let timerId = null, finishing = false;
+
+/* ---------- sxema ---------- */
+const POS = {A: [46, 150], R1: [134, 150], R2: [252, 52], R3: [252, 150], R4: [252, 248], R5: [374, 52], R6: [374, 150], R7: [374, 248], R8: [494, 150], Internet: [598, 150], Server: [676, 150]};
+const RAD = {A: 22, Internet: 34, Server: 24};
+function seg(a, b, cls) {
+  const [x1, y1] = POS[a], [x2, y2] = POS[b];
+  const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+  const s = (RAD[a] || 22) + 3, e = (RAD[b] || 22) + 6;
+  const mk = cls === "f" ? "" : ` marker-end="url(#${cls.includes("hi") ? "mh" : "mn"})"`;
+  return `<line class="${cls}" x1="${(x1 + ux * s).toFixed(1)}" y1="${(y1 + uy * s).toFixed(1)}" x2="${(x2 - ux * e).toFixed(1)}" y2="${(y2 - uy * e).toFixed(1)}"${mk}/>`;
+}
+function figNet(q, hi) {
+  const nd = q.net, onPath = new Set(hi ? nd.path : []), hiE = new Set();
+  if (hi) for (let i = 0; i < nd.path.length - 1; i++) hiE.add(nd.path[i] + ">" + nd.path[i + 1]);
+  let s = `<div class="figwrap"><svg class="net" viewBox="0 0 720 300" role="img" aria-label="Tarmoq sxemasi: A kompyuter, routerlar R1–R8, Internet va server">
+  <defs><marker id="mn" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path class="mkn" d="M0 0L10 5L0 10z"/></marker>
+  <marker id="mh" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><path class="mkh" d="M0 0L10 5L0 10z"/></marker></defs>`;
+  (nd.faint || []).forEach(([a, b]) => s += seg(a, b, "f"));
+  s += seg("A", "R1", "e arr");
+  nd.table.forEach(([a, b]) => { if (!hiE.has(a + ">" + b)) s += seg(a, b, "e arr"); });
+  nd.table.forEach(([a, b]) => { if (hiE.has(a + ">" + b)) s += seg(a, b, "e arr hi"); });
+  s += seg("Internet", "Server", "e arr");
+  ["R1", "R2", "R3", "R4", "R5", "R6", "R7", "R8"].forEach(k => {
+    const [x, y] = POS[k];
+    s += `<g class="rn${onPath.has(k) ? " on" : ""}"><circle cx="${x}" cy="${y}" r="22"/><text x="${x}" y="${y + 5}">${k}</text></g>`;
+  });
+  const [ax, ay] = POS.A, [ix, iy] = POS.Internet, [sx, sy] = POS.Server;
+  s += `<g><rect class="ico" x="${ax - 20}" y="${ay - 18}" width="40" height="28" rx="5"/><rect class="ico" x="${ax - 8}" y="${ay + 12}" width="16" height="6" rx="2"/><text class="cap" x="${ax}" y="${ay + 40}">Kompyuter A</text>${nd.ipa ? `<text class="cap" x="${ax}" y="${ay + 55}">${nd.ipa}</text>` : ""}</g>`;
+  s += `<g><circle class="ico" cx="${ix - 20}" cy="${iy + 4}" r="16"/><circle class="ico" cx="${ix}" cy="${iy - 8}" r="22"/><circle class="ico" cx="${ix + 22}" cy="${iy + 4}" r="16"/><rect class="ico" x="${ix - 36}" y="${iy + 2}" width="74" height="18" rx="9" style="stroke:none"/><text class="cap" x="${ix}" y="${iy + 42}">Internet</text></g>`;
+  s += `<g>${[0, 1, 2].map(i => `<rect class="ico" x="${sx - 16}" y="${sy - 30 + i * 21}" width="32" height="17" rx="4"/>`).join("")}<text class="cap" x="${sx}" y="${sy + 46}">Server</text>${nd.ips ? `<text class="cap" x="${sx}" y="${sy + 61}">${nd.ips}</text>` : ""}</g>`;
+  return s + `</svg></div><p class="swipe">Sxema kengroq: yon tomonga suring</p>`;
+}
+function netTables(q, hi) {
+  const nd = q.net, hit = new Set(hi ? nd.path.slice(0, -1) : []);
+  const rows = nd.table.map(([a, b]) => `<tr class="${hit.has(a) ? "hit" : ""}"><td>${a}</td>${q.pk ? "<td>203.0.113.5</td>" : ""}<td>${b}</td></tr>`).join("");
+  let h = `<div class="tbls">`;
+  if (q.pk) h += `<table class="t"><caption>Paket tarkibi</caption><tr><th>Paket maydoni</th><th>Qiymati</th></tr><tr><td>Chiqish manzili</td><td>A computer</td></tr><tr><td>Borish manzili</td><td>Server</td></tr><tr><td>Paket tartib raqami</td><td>3</td></tr><tr><td>Ma’lumot</td><td>10101…</td></tr></table>`;
+  h += `<table class="t"><caption>Routerlarning yo‘nalish jadvali</caption><tr><th>Router</th>${q.pk ? "<th>Borish manzili</th>" : ""}<th>Keyingi yo‘nalish</th></tr>${rows}</table></div>`;
+  return h;
+}
+const devBox = () => `<div class="dev"><div><b>Qurilmalar</b>I. Magnit tasma<br>II. USB-fleshkalar<br>III. DVD</div><div><b>Kriteriyalar</b>1. Ma’lumotlarga kirish tezligi<br>2. Mustahkamligi<br>3. Xotira sig‘imi</div></div>`;
+
+function qBody(q, hi) {
+  let h = `<p class="qtext">${esc(q.t)}</p>`;
+  if (q.s) h += `<ol class="stmts">${q.s.map(([l, t]) => `<li><b>${esc(l)}</b><span>${esc(t)}</span></li>`).join("")}</ol>`;
+  if (q.af) h += `<p class="qafter">${esc(q.af)}</p>`;
+  if (q.fig === "net") h += figNet(q, hi) + netTables(q, hi);
+  if (q.fig === "dev") h += devBox();
+  return h;
+}
+
+/* ---------- ekranlar ---------- */
+function vName() {
+  return `<div class="wrap"><div class="hero">
+    <div class="mark">ChSB</div>
+    <div><h1>Informatika testlari</h1><p class="muted" style="margin-top:6px">Boshlash uchun ism va familiyangizni kiriting.</p></div>
+    <div class="field"><label for="nm">Ism va familiya</label>
+      <input class="input" id="nm" type="text" autocomplete="name" maxlength="60" placeholder="Masalan: Ozodbek Toshov" value="${esc(S.name)}">
+      <p class="hint">Natijangiz shu ism bilan ko‘rsatiladi.</p></div>
+    <button class="btn primary block" id="go" data-act="go-home" ${S.name.trim().length < 2 ? "disabled" : ""}>Davom etish →</button>
+  </div></div>`;
+}
+function getSession() { const s = store("get", K_SESS); return (s && s.name === S.name && Array.isArray(s.answers)) ? s : null; }
+function histFor(name) { return (store("get", K_HIST) || []).map((h, k) => ({h, k})).filter(x => x.h.name.trim().toLowerCase() === name.trim().toLowerCase()); }
+function vHome() {
+  const sess = getSession(), hist = histFor(S.name).slice(0, 5);
+  let action;
+  if (sess) {
+    const left = DURATION - (Date.now() - sess.start), n = sess.answers.filter(x => x !== null).length;
+    action = `<div class="resume">Tugallanmagan urinish bor: <b>${n}/${TOTAL}</b> savolga javob berilgan, qolgan vaqt <b>${mmss(left)}</b>.</div>
+      <div class="acts"><button class="btn primary" data-act="resume">Davom ettirish</button><button class="btn ghost" data-act="start">Qaytadan boshlash</button></div>`;
+  } else action = `<button class="btn primary block" data-act="start">Boshlash →</button>`;
+  const hh = hist.length ? `<div class="hist"><h2 class="sec">Oldingi urinishlar</h2>${hist.map(({h, k}) => `<div class="att"><div><b>${fmtPts(h.score)} / ${fmtPts(MAXPTS)}</b><small>${dateTxt(h.date)}, ${spentTxt(h.spent)}</small></div><button class="link" data-act="view-res" data-k="${k}">Ko‘rish</button></div>`).join("")}</div>` : "";
+  return `<div class="wrap">
+    <div class="top"><div><p class="muted s">Xush kelibsiz</p><h1>Salom, ${esc(S.name)}!</h1></div><button class="link" data-act="chg-name">Ismni o‘zgartirish</button></div>
+    <h2 class="sec">Testlar</h2>
+    <div class="tcard${S.open ? " open" : ""}">
+      <button class="tcard-h" data-act="toggle-card" aria-expanded="${S.open}">
+        <span class="tic">ChSB</span>
+        <span class="tinfo"><b>Informatika va axborot texnologiyalari</b><small>9-sinf, I chorak 1-ChSB</small></span>
+        <span class="chev">${S.open ? "▲" : "▼"}</span>
+      </button>
+      <div class="tbody">
+        <ul class="facts"><li><b>${TOTAL}</b> ta savol</li><li><b>${fmtPts(MAXPTS)}</b> ball</li><li><b>60</b> daqiqa</li></ul>
+        <ul class="rules">
+          <li>Savollar birma-bir chiqadi. “Oldingi” va “Keyingi” tugmalari bilan almashtirasiz.</li>
+          <li>Vaqt 60 daqiqadan teskari hisoblanadi, tugasa test o‘zi yakunlanadi.</li>
+          <li>Bilish — 2 ball, Qo‘llash — 2,4 ball, Mulohaza — 5 ball.</li>
+          <li>Tugatgach ball, sarflangan vaqt va xatolar tahlili ko‘rsatiladi.</li>
+        </ul>
+        ${action}
+      </div>
+    </div>${hh}</div>`;
+}
+function vTest() {
+  const t = S.t, q = Q[t.idx], a = t.answers[t.idx], n = t.answers.filter(x => x !== null).length, last = t.idx === TOTAL - 1;
+  const [lvn, lvc] = LV[q.lv];
+  return `<header class="tbar"><div class="tbar-in">
+      <div class="tcount"><b>${t.idx + 1}</b> / ${TOTAL}</div>
+      <div class="timer" id="timer" role="timer">--:--</div>
+      <div class="tans">${n}/${TOTAL}<small>javob</small></div></div>
+    <div class="prog"><i style="width:${(n / TOTAL * 100).toFixed(1)}%"></i></div>
+    <div class="chips" id="chips">${Q.map((_, i) => `<button class="cn${i === t.idx ? " cur" : (t.answers[i] !== null ? " ans" : "")}" data-act="goto" data-i="${i}" aria-label="${i + 1}-savol">${i + 1}</button>`).join("")}</div>
+  </header>
+  <main class="wrap qwrap"><article class="qcard">
+    <div class="qmeta"><span class="lvl ${lvc}">${lvn} • ${fmtPts(PTS[q.lv])} ball</span><span class="qn">${q.n}-savol</span></div>
+    ${qBody(q, false)}
+    <div class="opts${q.mono ? " mono" : ""}">${q.o.map((o, i) => `<button class="opt${a === i ? " sel" : ""}" data-act="opt" data-i="${i}" aria-pressed="${a === i}"><span class="ol">${LET[i]}</span><span class="ot">${esc(o)}</span></button>`).join("")}</div>
+    ${a !== null ? `<button class="link" data-act="clear">Tanlovni bekor qilish</button>` : ""}
+  </article></main>
+  <nav class="bnav"><div class="bnav-in">
+    <button class="btn ghost" data-act="prev" ${t.idx === 0 ? "disabled" : ""}>← Oldingi</button>
+    ${last ? `<button class="btn good" data-act="finish">Tugatish ✓</button>` : `<button class="btn primary" data-act="next">Keyingi →</button>`}
+  </div></nav>`;
+}
+function reviewItem(q, ans) {
+  const ok = ans === q.c, bl = ans === null;
+  const badge = ok ? `<span class="badge ok">To‘g‘ri</span>` : bl ? `<span class="badge bl">Javob berilmagan</span>` : `<span class="badge no">Xato</span>`;
+  const opts = q.o.map((o, i) => {
+    const cls = i === q.c ? "ok" : (i === ans ? "no" : "");
+    const tag = i === q.c ? `<span class="tagm">To‘g‘ri javob</span>` : (i === ans ? `<span class="tagm">Sizning javobingiz</span>` : "");
+    return `<div class="opt static ${cls}"><span class="ol">${LET[i]}</span><span class="ot">${esc(o)}</span>${tag}${q.on && q.on[i] ? `<span class="onote">${esc(q.on[i])}</span>` : ""}</div>`;
+  }).join("");
+  return `<section class="rv"><div class="rv-h"><span class="qn">${q.n}-savol, ${fmtPts(PTS[q.lv])} ball</span>${badge}</div>
+    ${qBody(q, true)}<div class="${q.mono ? "mono" : ""}">${opts}</div>
+    <div class="expl"><b>Yechim</b><ul>${q.e.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
+    ${q.fn ? `<p class="fnote">${esc(q.fn)}</p>` : ""}</section>`;
+}
+function vResult() {
+  const r = S.res, pct = r.score / MAXPTS, C = 2 * Math.PI * 70;
+  const col = pct >= .85 ? "var(--good)" : pct >= .6 ? "var(--accent)" : pct >= .4 ? "var(--amber)" : "var(--bad)";
+  const msg = pct >= .9 ? "Ajoyib natija!" : pct >= .7 ? "Yaxshi natija!" : pct >= .5 ? "Qoniqarli. Xatolarni ko‘rib chiqing." : "Mavzularni takrorlab, yana urinib ko‘ring.";
+  const bad = Q.map((q, i) => ({q, i, a: r.answers[i]})).filter(x => x.a !== x.q.c);
+  const f = (S.filter === "wrong" && bad.length) ? "wrong" : "all";
+  const list = (f === "wrong" ? bad : Q.map((q, i) => ({q, i, a: r.answers[i]}))).map(x => reviewItem(x.q, x.a)).join("");
+  return `<div class="wrap">
+    <section class="rcard">
+      <p class="muted s">Informatika, 9-sinf, I chorak 1-ChSB</p><h2 style="margin:2px 0 14px">${esc(r.name)}</h2>
+      ${r.timeUp ? `<div class="note">Vaqt tugadi, test avtomatik yakunlandi.</div>` : ""}
+      <div class="ring"><svg viewBox="0 0 160 160"><circle class="bgc" cx="80" cy="80" r="70"/><circle class="fg" cx="80" cy="80" r="70" stroke="${col}" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - pct)).toFixed(1)}"/></svg>
+        <div class="mid"><b>${fmtPts(r.score)}</b><small>/ ${fmtPts(MAXPTS)} ball</small></div></div>
+      <p style="font-weight:600">${msg}</p><p class="muted s">${Math.round(pct * 100)}%</p>
+      <div class="stats">
+        <div class="stat g"><b>${r.correct}</b><small>to‘g‘ri javob</small></div>
+        <div class="stat r"><b>${r.wrong}</b><small>xato javob</small></div>
+        <div class="stat w"><b>${r.blank}</b><small>javobsiz</small></div>
+        <div class="stat"><b>${mmss(r.spent)}</b><small>sarflangan vaqt (${spentTxt(r.spent)})</small></div>
+      </div>
+      <div class="lvrow">${["B", "Q", "M"].map(k => `<span class="lvl ${LV[k][1]}">${LV[k][0]}: ${r.by[k][0]}/${r.by[k][1]}</span>`).join("")}</div>
+      <div class="acts"><button class="btn primary" data-act="again">Qayta ishlash</button><button class="btn ghost" data-act="home">Bosh sahifa</button></div>
+    </section>
+    <div class="rev-h"><h2>Natijalar tahlili</h2>
+      <div class="tabs"><button class="tab${f === "wrong" ? " on" : ""}" data-act="filter" data-f="wrong">Xatolar (${bad.length})</button><button class="tab${f === "all" ? " on" : ""}" data-act="filter" data-f="all">Hammasi (${TOTAL})</button></div></div>
+    ${list || `<div class="empty">Xato yo‘q, barcha javoblar to‘g‘ri!</div>`}
+  </div>`;
+}
+
+/* ---------- holat ---------- */
+function render(keep) {
+  const y = window.scrollY;
+  document.body.dataset.screen = S.screen;
+  document.getElementById("app").innerHTML = ({name: vName, home: vHome, test: vTest, result: vResult})[S.screen]();
+  if (S.screen === "test") { startTick(); updateTimer(); const c = document.getElementById("chips"), el = c && c.querySelector(".cur"); if (el) c.scrollLeft = el.offsetLeft - c.clientWidth / 2 + el.offsetWidth / 2; }
+  else stopTick();
+  if (S.screen === "name") { const nm = document.getElementById("nm"); if (nm) nm.addEventListener("input", () => { S.name = nm.value; document.getElementById("go").disabled = nm.value.trim().length < 2; }); }
+  window.scrollTo(0, keep ? y : 0);
+}
+function startTick() { if (!timerId) timerId = setInterval(updateTimer, 250); }
+function stopTick() { if (timerId) { clearInterval(timerId); timerId = null; } }
+function updateTimer() {
+  if (!S.t) return;
+  const left = DURATION - (Date.now() - S.t.start), el = document.getElementById("timer");
+  if (el) { el.textContent = mmss(left); el.className = "timer" + (left < 60000 ? " danger pulse" : left < 300000 ? " danger" : left < 600000 ? " warn" : ""); }
+  if (left <= 0) finish(true);
+}
+function saveSess() { if (S.t) store("set", K_SESS, {name: S.name, idx: S.t.idx, answers: S.t.answers, start: S.t.start}); }
+function grade(ans) {
+  const r = {score: 0, correct: 0, wrong: 0, blank: 0, by: {B: [0, 0], Q: [0, 0], M: [0, 0]}, answers: ans.slice()};
+  Q.forEach((q, i) => {
+    r.by[q.lv][1]++;
+    if (ans[i] === null) r.blank++; else if (ans[i] === q.c) { r.correct++; r.score += PTS[q.lv]; r.by[q.lv][0]++; } else r.wrong++;
+  });
+  return r;
+}
+function finish(timeUp) {
+  if (finishing || !S.t) return; finishing = true;
+  const r = grade(S.t.answers);
+  r.name = S.name; r.timeUp = !!timeUp; r.date = Date.now(); r.spent = Math.min(DURATION, r.date - S.t.start);
+  const h = store("get", K_HIST) || []; h.unshift(r); store("set", K_HIST, h.slice(0, 20));
+  store("del", K_SESS); S.t = null; S.res = r; S.filter = "wrong"; S.screen = "result";
+  closeModal(); render(false); finishing = false;
+}
+function openConfirm() {
+  const n = S.t.answers.filter(x => x !== null).length, miss = TOTAL - n;
+  document.getElementById("modal-root").innerHTML = `<div class="mbg" id="mbg"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+    <h2 id="mt">Testni tugatasizmi?</h2>
+    <p>Javob berilgan: <b>${n}/${TOTAL}</b></p>
+    ${miss ? `<p class="warnl">${miss} ta savolga hali javob bermadingiz.</p>` : ""}
+    <p>Tugatgandan keyin javoblarni o‘zgartirib bo‘lmaydi.</p>
+    <div class="macts"><button class="btn ghost" data-act="confirm-no" id="cno">Yo‘q, davom etaman</button><button class="btn good" data-act="confirm-yes">Ha, tugatish</button></div></div></div>`;
+  const b = document.getElementById("cno"); if (b) b.focus();
+}
+function closeModal() { document.getElementById("modal-root").innerHTML = ""; }
+function go(i) { S.t.idx = Math.max(0, Math.min(TOTAL - 1, i)); saveSess(); render(false); }
+function pick(i) { const t = S.t; t.answers[t.idx] = i; saveSess(); render(true); }
+
+function act(a, el) {
+  const t = S.t;
+  switch (a) {
+    case "go-home": { const v = S.name.trim().replace(/\s+/g, " "); if (v.length < 2) return; S.name = v; store("set", K_NAME, v); S.screen = "home"; render(false); break; }
+    case "chg-name": S.screen = "name"; render(false); break;
+    case "toggle-card": S.open = !S.open; render(true); break;
+    case "start": { S.t = {idx: 0, answers: Array(TOTAL).fill(null), start: Date.now()}; saveSess(); S.screen = "test"; render(false); break; }
+    case "resume": { const s = getSession(); if (!s) return; S.t = {idx: s.idx || 0, answers: s.answers, start: s.start}; S.screen = "test"; render(false); break; }
+    case "opt": pick(+el.dataset.i); break;
+    case "clear": t.answers[t.idx] = null; saveSess(); render(true); break;
+    case "prev": go(t.idx - 1); break;
+    case "next": go(t.idx + 1); break;
+    case "goto": go(+el.dataset.i); break;
+    case "finish": openConfirm(); break;
+    case "confirm-no": closeModal(); break;
+    case "confirm-yes": finish(false); break;
+    case "again": S.open = true; S.screen = "home"; render(false); break;
+    case "home": S.screen = "home"; render(false); break;
+    case "filter": S.filter = el.dataset.f; render(true); break;
+    case "view-res": { const h = store("get", K_HIST) || [], r = h[+el.dataset.k]; if (r) { S.res = r; S.filter = "wrong"; S.screen = "result"; render(false); } break; }
+  }
+}
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]"); if (el && !el.disabled) act(el.dataset.act, el);
+  else if (e.target.id === "mbg") closeModal();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter" && S.screen === "name" && e.target.id === "nm") { act("go-home"); return; }
+  if (document.getElementById("mbg")) { if (e.key === "Escape") closeModal(); return; }
+  if (S.screen !== "test" || e.target.tagName === "INPUT") return;
+  const t = S.t, k = e.key.toLowerCase();
+  if (e.key === "ArrowRight" && t.idx < TOTAL - 1) go(t.idx + 1);
+  else if (e.key === "ArrowLeft" && t.idx > 0) go(t.idx - 1);
+  else if ("abcd".includes(k) && k.length === 1) pick("abcd".indexOf(k));
+  else if ("1234".includes(k) && k.length === 1) pick(+k - 1);
+});
+S.name = store("get", K_NAME) || "";
+render(false);
+</script>
+</body>
+</html>
